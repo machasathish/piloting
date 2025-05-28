@@ -121,6 +121,128 @@ $(document).ready(function() {
 
   // Optimized logo creation
   createLogo();
+
+  // Timeline consultation button
+  const consultationBtn = document.querySelector('.btn-consultation');
+  if (consultationBtn) {
+    consultationBtn.addEventListener('click', function() {
+      console.log('Consultation button clicked');
+      // Add your consultation button functionality here
+    });
+  }
+
+  // FAQ functionality
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  faqQuestions.forEach(question => {
+    question.addEventListener('click', function() {
+      // Toggle aria-expanded attribute
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !isExpanded);
+      
+      // Get the answer container
+      const answer = this.nextElementSibling;
+      
+      // Toggle active class on answer
+      answer.classList.toggle('active');
+      
+      // Close other open answers
+      faqQuestions.forEach(otherQuestion => {
+        if (otherQuestion !== question) {
+          otherQuestion.setAttribute('aria-expanded', 'false');
+          otherQuestion.nextElementSibling.classList.remove('active');
+        }
+      });
+    });
+  });
+
+  // Testimonials Slider functionality
+  const testimonialItems = document.querySelectorAll('.testimonial-item');
+  const dots = document.querySelectorAll('.dot');
+  const prevBtn = document.querySelector('.testimonial-nav.prev');
+  const nextBtn = document.querySelector('.testimonial-nav.next');
+  let currentSlide = 0;
+
+  if (testimonialItems.length > 0 && dots.length > 0) {
+    function showSlide(index) {
+      // Remove active class from all slides and dots
+      testimonialItems.forEach(item => item.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+
+      // Add active class to current slide and dot
+      testimonialItems[index].classList.add('active');
+      dots[index].classList.add('active');
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % testimonialItems.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + testimonialItems.length) % testimonialItems.length;
+      showSlide(currentSlide);
+    }
+
+    // Event listeners for navigation
+    if (nextBtn && prevBtn) {
+      nextBtn.addEventListener('click', nextSlide);
+      prevBtn.addEventListener('click', prevSlide);
+    }
+
+    // Event listeners for dots
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        currentSlide = index;
+        showSlide(currentSlide);
+      });
+    });
+
+    // Auto-advance slides every 5 seconds
+    setInterval(nextSlide, 5000);
+  }
+
+  // FAQ contact button
+  const contactBtn = document.querySelector('.contact-btn');
+  if (contactBtn) {
+    contactBtn.addEventListener('click', function() {
+      console.log('Contact button clicked');
+      // Add your contact button functionality here
+    });
+  }
+
+  // Form handling
+  const pilotForm = document.getElementById('pilotApplicationForm');
+  if (pilotForm) {
+    pilotForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form data
+      const formData = new FormData(this);
+      const formDataObj = {};
+      formData.forEach((value, key) => formDataObj[key] = value);
+      
+      // Log form submission (replace with your actual form submission logic)
+      console.log('Form submitted:', formDataObj);
+      
+      // Show success message (customize as needed)
+      alert('Thank you for your application! We will contact you soon.');
+      
+      // Reset form
+      this.reset();
+    });
+  }
+
+  // Feature card hover effect
+  const featureCards = document.querySelectorAll('.feature-card');
+  featureCards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-5px)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0)';
+    });
+  });
 });
 
 // Function to create a dynamic SVG logo
@@ -196,120 +318,3 @@ window.onload = async function() {
   await preloadImages();
   recordPerformanceMetrics();
 };
-
-// Add event listener when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Timeline consultation button
-    const consultationBtn = document.querySelector('.btn-consultation');
-    consultationBtn.addEventListener('click', function() {
-        console.log('Consultation button clicked');
-        // Add your consultation button functionality here
-    });
-
-    // FAQ functionality
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', function() {
-            // Toggle aria-expanded attribute
-            const isExpanded = this.getAttribute('aria-expanded') === 'true';
-            this.setAttribute('aria-expanded', !isExpanded);
-            
-            // Get the answer container
-            const answer = this.nextElementSibling;
-            
-            // Toggle active class on answer
-            answer.classList.toggle('active');
-            
-            // Close other open answers
-            faqQuestions.forEach(otherQuestion => {
-                if (otherQuestion !== question) {
-                    otherQuestion.setAttribute('aria-expanded', 'false');
-                    otherQuestion.nextElementSibling.classList.remove('active');
-                }
-            });
-        });
-    });
-
-    // Testimonials Slider functionality
-    const testimonialItems = document.querySelectorAll('.testimonial-item');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.querySelector('.testimonial-nav.prev');
-    const nextBtn = document.querySelector('.testimonial-nav.next');
-    let currentSlide = 0;
-
-    function showSlide(index) {
-        // Remove active class from all slides and dots
-        testimonialItems.forEach(item => item.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
-
-        // Add active class to current slide and dot
-        testimonialItems[index].classList.add('active');
-        dots[index].classList.add('active');
-    }
-
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % testimonialItems.length;
-        showSlide(currentSlide);
-    }
-
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + testimonialItems.length) % testimonialItems.length;
-        showSlide(currentSlide);
-    }
-
-    // Event listeners for navigation
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
-
-    // Event listeners for dots
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            currentSlide = index;
-            showSlide(currentSlide);
-        });
-    });
-
-    // Auto-advance slides every 5 seconds
-    setInterval(nextSlide, 5000);
-
-    // FAQ contact button
-    const contactBtn = document.querySelector('.contact-btn');
-    contactBtn.addEventListener('click', function() {
-        console.log('Contact button clicked');
-        // Add your contact button functionality here
-    });
-
-    // Form handling
-    const pilotForm = document.getElementById('pilotApplicationForm');
-    if (pilotForm) {
-        pilotForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            const formDataObj = {};
-            formData.forEach((value, key) => formDataObj[key] = value);
-            
-            // Log form submission (replace with your actual form submission logic)
-            console.log('Form submitted:', formDataObj);
-            
-            // Show success message (customize as needed)
-            alert('Thank you for your application! We will contact you soon.');
-            
-            // Reset form
-            this.reset();
-        });
-    }
-
-    // Feature card hover effect
-    const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-});
